@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 2 - Website Building</title>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        #login-container {
+            width: 460px;
+            margin: 0 auto;
+        }
+
+        form label,
+        form input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        form input {
+            padding: 8px;
+        }
+
+        form label {
+            font-weight: bold;
+        }
+
+        form div {
+            position: relative;
+            margin: 16px 0px;
+        }
+
+        .valid-user,
+        .not-valid-user,
+        .valid-pass,
+        .not-valid-pass {
+            display: block;
+            position: absolute;
+            top: 25px;
+            right: 10px;
+            font-size: 18px;
+        }
+
+        .valid-user,
+        .valid-pass {
+            color: green;
+        }
+
+        .not-valid-user,
+        .not-valid-pass {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="login-container">
+
+        <form>
+            <div>
+                <label for="username">Username:</label>
+                <input id="username" type="text">
+                <i></i>
+            </div>
+
+            <div>
+                <label for="password">Password:</label>
+                <input id="password" type="password">
+                <i></i>
+            </div>
+
+            <input id="btn" type="button" value="Login">
+        </form>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"
+        integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            var user = {
+                username: 'new_user',
+                password: 123456789
+            }
+
+
+
+            $('#btn').on('click', function () {
+
+
+
+
+
+                // geting input field data objects
+                let user_input = $('#username');
+                let pass_input = $('#password');
+
+                // removign error messages,icons and style for the next click 
+                $('p').remove();
+                user_input.next().removeClass('fa fa-times fa fa-check valid-user not-valid-user');
+                pass_input.next().removeClass('fa fa-times fa fa-check valid-pass not-valid-pass');
+
+                // if empty username and if it's not a valid input
+                if (user_input.val() == "") {
+                    notValid(user_input, 'user', 'enter username');
+                } else if (user_input.val() != user.username) {
+                    notValid(user_input, 'user', 'enter valid username');
+                }
+
+                // if empty password and if it's not a valid input
+                if (pass_input.val() == "") {
+                    notValid(pass_input, 'pass', 'enter password');
+                } else if (pass_input.val() != user.password) {
+                    notValid(pass_input, 'pass', 'enter valid password');
+                }
+
+                // if username is valid
+                if (user_input.val() == user.username) {
+                    validInput(user_input, 'user');
+                }
+
+                // if password is valid
+                if (pass_input.val() == user.password) {
+                    validInput(pass_input, 'pass');
+                }
+
+                // if username and password are valid display succes mmessage
+                if (pass_input.val() == user.password && user_input.val() == user.username) {
+                    let success = $('<p><em>Successful login!<em></p>');
+                    $('form').after(success);
+                }
+
+            });
+
+        })
+
+  // if form input is valid adding style and fontA-icons the param1 (input) field param2 (input_type) prefix for the class
+        function validInput(input, input_type) {
+            input.css({
+                'border': "1px solid green"
+            });
+            input.next().addClass('fa fa-check valid-' + input_type);
+        }
+
+  // if form input is not valid adding style and fontA-icons the param1 (input) field param2 (input_type) prefix for the class and (message) for text error message
+        function notValid(input, input_type, message) {
+            let not_valid = $('<p>please, ' + message + '</p>');
+            $('form').after(not_valid);
+            input.css({
+                'border': "1px solid red"
+            });
+            input.next().addClass('fa fa-times not-valid-' + input_type);
+        }
+    </script>
+</body>
+
+</html>
